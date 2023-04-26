@@ -647,3 +647,5 @@
 2023-04-26 15:19:11,686 [Worker-90: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\rajat\Desktop\OneAssure_Assignment\OneAssure_Selenium_Assignment\src\test\resources
 2023-04-26 15:20:03,712 [Worker-89: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
 2023-04-26 15:20:03,713 [Worker-89: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\rajat\Desktop\OneAssure_Assignment\OneAssure_Selenium_Assignment\src\main\resources
+2023-04-26 15:20:03,714 [Worker-89: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+2023-04-26 15:20:03,714 [Worker-89: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\rajat\Desktop\OneAssure_Assignment\OneAssure_Selenium_Assignment\src\test\resources
