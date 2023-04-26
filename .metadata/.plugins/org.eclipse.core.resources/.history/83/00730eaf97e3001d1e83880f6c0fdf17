@@ -1,0 +1,52 @@
+package Gmail;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class SignUp_Compose_Mail_IN_gmail {
+
+	public static void main(String[] args) throws InterruptedException {
+
+		WebDriverManager.chromedriver().setup();
+		// System.setProperty("WebDriver.chrome.driver",
+		// "C:\\Users\\rajat\\Downloads\\chromedriver_win32\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		// WebDriver driver1 = new FirefoxDriver();
+		// WebDriver driver2 = new EdgeDriver();
+		driver.get("https://www.google.com/gmail/about/");
+
+		driver.manage().window().maximize();
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+		// click on create an account button
+		driver.findElement(By.xpath("//a[@data-label='header']" + "//span[@class='laptop-desktop-only']"
+				+ "[normalize-space()='Create an account']")).click();
+
+		// Sending first name
+		WebElement firstName = driver.findElement(By.id("firstName"));
+		firstName.sendKeys("Rajat");
+		WebElement lastName = driver.findElement(By.id("lastName"));
+		lastName.sendKeys("Pardhi");
+		Thread.sleep(6000);
+		// gmail will auto suggested Username
+		// paassword
+		WebElement password = driver.findElement(By.name("Passwd"));
+
+		password.sendKeys("R@j9876");
+		//confrim password
+		WebElement confrimPassword = driver.findElement(By.name("ConfirmPasswd"));
+
+		confrimPassword.sendKeys("R@j9876");
+		// Click on Next button
+		driver.findElement(By.className("VfPpkd-RLmnJb")).click();
+	}
+
+}

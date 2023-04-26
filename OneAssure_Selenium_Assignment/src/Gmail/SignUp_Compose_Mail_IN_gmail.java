@@ -1,0 +1,98 @@
+package Gmail;
+
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+
+import com.twilio.Twilio;
+import com.twilio.base.ResourceSet;
+import com.twilio.rest.api.v2010.account.Message;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class SignUp_Compose_Mail_IN_gmail {
+	
+	public static final String ACCOUNT_SID="AC424b4f3cdff1082b586989b51c26dbe1";
+	public static final String AUTH_TOKEN="1ea1c60071f1f9e7f47db3b4b05520ee";
+
+	public static void main(String[] args) throws InterruptedException {
+
+		WebDriverManager.chromedriver().setup();
+		// System.setProperty("WebDriver.chrome.driver",
+		// "C:\\Users\\rajat\\Downloads\\chromedriver_win32\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+		 //WebDriver driver = new FirefoxDriver();
+		// WebDriver driver2 = new EdgeDriver();
+		driver.get("https://www.google.com/gmail/about/");
+
+		driver.manage().window().maximize();
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
+		// click on create an account button
+		driver.findElement(By.xpath("//a[@data-label='header']" + "//span[@class='laptop-desktop-only']"
+				+ "[normalize-space()='Create an account']")).click();
+
+		// Sending first name
+		WebElement firstName = driver.findElement(By.id("firstName"));
+		firstName.sendKeys("Rajat");
+		WebElement lastName = driver.findElement(By.id("lastName"));
+		lastName.sendKeys("Pardhi");
+		Thread.sleep(6000);
+		// gmail will auto suggested Username
+		// paassword
+		WebElement password = driver.findElement(By.name("Passwd"));
+
+		password.sendKeys("R@j98765");
+		//confrim password
+		WebElement confrimPassword = driver.findElement(By.name("ConfirmPasswd"));
+
+		confrimPassword.sendKeys("R@j98765");
+		// Click on Next button
+		driver.findElement(By.xpath("(//span[@class=\"VfPpkd-vQzf8d\"])[1]")).click();
+		Thread.sleep(10000);		
+		// Selecting Country dropdown
+		 
+		WebElement selectCountryDropdown=driver.findElement(By.xpath("(//div[@class='VfPpkd-TkwUic'])[1]"));
+		//WebElement selectCountryDropdown=driver.findElement(By.className("VfPpkd-StrnGf-rymPhb-b9t22c"));
+		
+		Select findDropDown = new Select(selectCountryDropdown);
+		//findDropDown.selectByIndex(3);
+		//findDropDown.selectByValue("American Samoa (+1)");
+		findDropDown.selectByVisibleText("American Samoa (+1)");
+		//Enter contact no.
+		driver.findElement(By.id("phoneNumberId")).sendKeys("6813083857");
+		// Click on COntact Next button
+		Thread.sleep(5000);
+		driver.findElement(By.xpath("(//span[@class=\"VfPpkd-vQzf8d\"])[1]")).click();
+		
+		// get the OTP using Twilio APIs:
+		Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+		String smsBody = getMessage();
+		System.out.println(smsBody);
+		String OTPNumber = smsBody.replaceAll("[^-?0-9]+", " ");
+		System.out.println(OTPNumber);
+		
+		driver.findElement(By.xpath("//input[@id=\"code\"]")).sendKeys(OTPNumber);
+
+	}
+
+	public static String getMessage() {
+		return getMessages().filter(m -> m.getDirection().compareTo(Message.Direction.INBOUND) == 0)
+				.filter(m -> m.getTo().equals("+16813083857")).map(Message::getBody).findFirst()
+				.orElseThrow(IllegalStateException::new);
+	}
+
+	private static Stream<Message> getMessages() {
+		ResourceSet<Message> messages = Message.reader(ACCOUNT_SID).read();
+		return StreamSupport.stream(messages.spliterator(), false);
+	}
+
+}

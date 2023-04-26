@@ -1,0 +1,37 @@
+package Gmail;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class CreatGmailAccount {
+
+	public static void main(String[] args) throws InterruptedException {
+		WebDriverManager.chromedriver().setup();
+		// System.setProperty("WebDriver.chrome.driver","C:\\Users\\rajat\\Downloads\\chromedriver_win32\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver(); // Launch Chrome
+		driver.get("https://www.google.com/gmail/about/"); // Enter URL
+		driver.manage().window().maximize(); //Maximizing Window
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS); // ImplicityWait
+		
+		// click on create an account button
+		driver.findElement(By.xpath("//a[@data-label='header']" + "//span[@class='laptop-desktop-only']"
+				+ "[normalize-space()='Create an account']")).click();
+
+		// Sending first name
+		WebElement firstName = driver.findElement(By.id("firstName"));
+		firstName.sendKeys("Rajat");
+		// Sending LastName
+		WebElement lastName = driver.findElement(By.id("lastName"));
+		lastName.sendKeys("Pardhi");
+		Thread.sleep(5000);
+
+	}
+
+}
