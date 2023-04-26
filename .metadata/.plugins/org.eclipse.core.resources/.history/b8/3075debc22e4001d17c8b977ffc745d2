@@ -1,0 +1,74 @@
+package Gmail;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class CreatGmailAccount {
+
+	public static void main(String[] args) throws InterruptedException, IOException {
+		WebDriverManager.chromedriver().setup();
+		// System.setProperty("WebDriver.chrome.driver","C:\\Users\\rajat\\Downloads\\chromedriver_win32\\chromedriver.exe");
+		WebDriver driver = new ChromeDriver(); // Launch Chrome
+		driver.get("https://www.google.com/gmail/about/"); // Enter URL
+		driver.manage().window().maximize(); // Maximizing Window
+		driver.manage().deleteAllCookies();
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); // ImplicityWait
+
+		// click on create an account button
+		driver.findElement(By.xpath("//a[@data-label='header']" + "//span[@class='laptop-desktop-only']"
+				+ "[normalize-space()='Create an account']")).click();
+
+		// Sending first name
+		WebElement firstName = driver.findElement(By.id("firstName"));
+		firstName.sendKeys("Rajat");
+		// Sending LastName
+		WebElement lastName = driver.findElement(By.id("lastName"));
+		lastName.sendKeys("Pardhi");
+		Thread.sleep(5000);
+		// G mail will auto suggested User name
+		// Creating Password
+		WebElement password = driver.findElement(By.name("Passwd"));
+
+		password.sendKeys("R@j98765");
+		// Confirm password
+		WebElement confrimPassword = driver.findElement(By.name("ConfirmPasswd"));
+
+		confrimPassword.sendKeys("R@j98765");
+		// Click on Next button
+		driver.findElement(By.xpath("(//span[@class=\"VfPpkd-vQzf8d\"])[1]")).click();
+		Thread.sleep(5000);
+		WebElement selectCountryDropdown = driver.findElement(By.xpath("(//div[@class='VfPpkd-TkwUic'])[1]"));
+//		
+		Thread.sleep(5000);
+//		selectCountryDropdown.click();
+//		Select findDropDown = new Select(selectCountryDropdown);
+//		findDropDown.selectByVisibleText("American Samoa (+1)");
+
+		// Taking Screen
+		// Take a screenshot of the current page
+		File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+		// Save the screenshot to a file
+//		FileUtils.copyFile(screenshot,
+//				new File("C:\\Users\\rajat\\Desktop\\OneAssure_Assignment\\Screenshot\\Can't_Create_Account.jpg"));
+//		//(Can't create a Google Account You can’t create a Google Account right now. Try again later.)--Error Due to Gmail Security 
+		FileUtils.copyFile(screenshot,
+				new File(".//screenshot/Can't_Create_Account.jpg"));
+		
+		
+
+	}
+
+}

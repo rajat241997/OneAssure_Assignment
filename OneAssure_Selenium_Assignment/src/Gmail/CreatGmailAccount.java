@@ -12,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.Test;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -63,7 +64,10 @@ public class CreatGmailAccount {
 		// Save the screenshot to a file
 		FileUtils.copyFile(screenshot,
 				new File("C:\\Users\\rajat\\Desktop\\OneAssure_Assignment\\Screenshot\\Can't_Create_Account.jpg"));
-		//(Can't create a Google Account You can’t create a Google Account right now. Try again later.)--Error Due to Gmail Security 
+//		//(Can't create a Google Account You can’t create a Google Account right now. Try again later.)--Error Due to Gmail Security 
+//		FileUtils.copyFile(screenshot,
+//				new File(".//screenshot/Can't_Create_Account.jpg"));
+		
 		
 
 	}
